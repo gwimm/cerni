@@ -13,23 +13,11 @@ in
     ./hardware.nix
     ./networking.nix
     ./ssh.nix
+    ./nfs.nix
     # ./wireguard.nix
     # ./mpd.nix
     # ./server.nix
   ];
-
-  nix.maxJobs = lib.mkDefault 4;
-
-  # filesystems."/mnt/adinf" = {
-  #   device = "/dev/sda1";
-  #   fsType = "ext4";
-  #   options = [
-  #     "nofail"
-  #     "umask=0755"
-  #     "uid=${user}"
-  #     "gid=wheel"
-  #   ];
-  # };
 
   users.users = {
     "root" = {
@@ -40,5 +28,19 @@ in
       extraGroups = [ "wheel" ];
       password = "ETAisq";
     };
+  };
+
+  # the 'Broadcom BCM2711' is an ARM v8, 64-bit, quad core cpu
+  nix.maxJobs = lib.mkDefault 4;
+
+  filesystems."/mnt/adinf" = {
+    device = "/dev/sda1";
+    fsType = "ext4";
+    options = [
+      "nofail"
+      "umask=0755"
+      "uid=${user}"
+      "gid=wheel"
+    ];
   };
 }

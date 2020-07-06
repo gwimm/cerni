@@ -13,7 +13,9 @@
     };
 
     loader = {
+      # override nixos' default value of 'true'
       grub.enable = false;
+
       # generationsDir.enable = false;
 
       raspberryPi = {
@@ -34,23 +36,6 @@
     };
   };
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-label/NIXOS_SD";
-      fsType = "ext4";
-    };
-
-    "/boot" = {
-      device = "/dev/disk/by-label/NIXOS_BOOT";
-      fsType = "vfat";
-    };
-  };
-
-  swapDevices = [{
-    device = "/tmp/swapfile";
-    size = 2048;
-  }];
-
   hardware = {
     opengl = {
       enable = true;
@@ -63,4 +48,26 @@
       overlays = [ "${pkgs.device-tree_rpi.overlays}/vc4-fkms-v3d.dtbo" ];
     };
   };
+
+  fileSystems = {
+    # I don't know if i much enjoy mounting by label
+    # if "/boot" is disabled and removed, the root partition unambiguously
+    # becomes '/dev/mmcblk0p1', letting us use that identifier instead
+    "/" = {
+      device = "/dev/disk/by-label/NIXOS_SD";
+      fsType = "ext4";
+    };
+
+    # the "/boot" partition doesn't seem to be required
+    # https://nixos.wiki/wiki/NixOS_on_ARM#Disable_use_of_.2Fboot_partition
+    "/boot" = {
+      device = "/dev/disk/by-label/NIXOS_BOOT";
+      fsType = "vfat";
+    };
+  };
+
+  swapDevices = [{
+    device = "/tmp/swapfile";
+    size = 2048;
+  }];
 }
