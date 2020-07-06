@@ -13,8 +13,6 @@ in
   networking = {
     firewall.allowedUDPPorts = [ listenPort ];
 
-    ips = [ "10.100.0.1/24" ];
-
     nat = {
       enable = true;
       externalInterface = externalInterface;
@@ -23,7 +21,9 @@ in
 
     wireguard.interfaces = {
       "wg0" = {
+        ips = [ "10.100.0.1/24" ];
         listenPort = listenPort;
+
         postSetup = ''
           ${pkgs.iptables}/bin/iptables           \
             --table  nat                          \
