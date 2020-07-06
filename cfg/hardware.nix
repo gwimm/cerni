@@ -19,7 +19,11 @@
       raspberryPi = {
         enable = true;
         version = 4;
-        uboot.enable = true;
+
+        # U-Boot is currently not supported on rpi4
+        # https://github.com/NixOS/nixpkgs/issues/63720
+        # uboot.enable = true;
+
         # firmwareConfig = ''
           # dtparam=audio=on
           # gpu_mem=192
