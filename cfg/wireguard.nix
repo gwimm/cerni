@@ -5,14 +5,15 @@
 let
   listenPort = 51820;
   externalInterface = "wlan0";
+  source = "10.100.0.0/24";
 
 in
 
 {
   networking = {
-    firewall = {
-      allowedUDPPorts = [ listenPort ];
-    };
+    firewall.allowedUDPPorts = [ listenPort ];
+
+    ips = [ "10.100.0.1/24" ];
 
     nat = {
       enable = true;
@@ -24,30 +25,29 @@ in
       "wg0" = {
         listenPort = listenPort;
         postSetup = ''
-          ${pkgs.iptables}/bin/iptables
-            -t nat
-            -A POSTROUTING
-            -s 10.100.0.0/24
-            -o ${externalInterface}
-            -j MASQUERADE
+          ${pkgs.iptables}/bin/iptables           \
+            --table  nat                          \
+            --append POSTROUTING                  \
+            --source ${source}                    \
+            --jump   MASQUERADE                   \
+            --out-interface ${externalInterface}
         '';
 
         postShutdown = ''
-          ${pkgs.iptables}/bin/iptables
-            -t nat
-            -D POSTROUTING
-            -s 10.100.0.0/24
-            -o ${externalInterface}
-            -j MASQUERADE
+          ${pkgs.iptables}/bin/iptables           \
+            --table  nat                          \
+            --delete POSTROUTING                  \
+            --source ${source}                    \
+            --jump   MASQUERADE                   \
+            --out-interface ${externalInterface}
         '';
 
-        privateKeyFile = "<path key private>";
-        peers = [
-          { # cpli
-            publicKey = "{key public cpli}";
-            allowedIPs = [ "10.100.0.2" ];
-          }
-        ];
+        privateKeyFile = "/srv/wg/prv.b64";
+
+        peers = [ { # cpli
+            allowedIPs = [ "10.100.0.2/24" ];
+            publicKey = "o1oXp9AfJW9anC8WNZU+01VhGrtbq4vazmwRPTil03E=";
+        } ];
       };
     };
   };
