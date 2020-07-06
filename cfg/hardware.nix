@@ -2,22 +2,20 @@
 
 {
   boot = {
-    kernelModules = [ ];
-    extraModulePackages = [ ];
-
     kernelPackages = pkgs.linuxPackages_rpi4;
 
     initrd = {
       availableKernelModules = [ "usbhid" ];
-      kernelModules = [ ];
     };
 
     loader = {
+      # grub does not support arm at all
       # override nixos' default value of 'true'
       grub.enable = false;
 
       # generationsDir.enable = false;
 
+      # rpi4b 4g
       raspberryPi = {
         enable = true;
         version = 4;
@@ -26,6 +24,7 @@
         # https://github.com/NixOS/nixpkgs/issues/63720
         # uboot.enable = true;
 
+        # supposedly required for audio output and gpu configuration
         # firmwareConfig = ''
           # dtparam=audio=on
           # gpu_mem=192
@@ -37,16 +36,17 @@
   };
 
   hardware = {
-    opengl = {
-      enable = true;
-      setLdLibraryPath = true;
-      package = pkgs.mesa_drivers;
-    };
-
     deviceTree = {
       base = pkgs.device-tree_rpi;
       overlays = [ "${pkgs.device-tree_rpi.overlays}/vc4-fkms-v3d.dtbo" ];
     };
+
+    # currently unnecessary, required for video later
+    # opengl = {
+    #   enable = true;
+    #   setLdLibraryPath = true;
+    #   package = pkgs.mesa_drivers;
+    # };
   };
 
   fileSystems = {

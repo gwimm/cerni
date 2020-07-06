@@ -14,15 +14,14 @@ in
     ./networking.nix
     ./ssh.nix
     ./nfs.nix
-    # ./wireguard.nix
+    ./wireguard.nix
     # ./mpd.nix
     # ./server.nix
   ];
 
   users.users = {
-    "root" = {
-      password = "ETAisq";
-    };
+    # FIXME: doesn't set root pswrd
+    "root" = { password = "ETAisq"; };
     "${user}" = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
@@ -30,17 +29,13 @@ in
     };
   };
 
-  # the 'Broadcom BCM2711' is an ARM v8, 64-bit, quad core cpu
+  # the 'Broadcom BCM2711' is an armv8, 64-bit, quad core cpu
   nix.maxJobs = lib.mkDefault 4;
 
-  fileSystems."/mnt/adinf" = {
+  # personal media harddrive
+  fileSystems."/mnt/gravi" = {
     device = "/dev/sda1";
     fsType = "ext4";
-    options = [
-      "nofail"
-      "umask=0755"
-      "uid=${user}"
-      "gid=wheel"
-    ];
+    options = [ "nofail" ];
   };
 }

@@ -4,12 +4,13 @@
 # potentially possible to isolate into its own function
 
 let
-  name = "adinf";
+  name = "gravi";
+  export = "/srv/nfs";
 
 in
 
 {
-  fileSystems."/export/${name}" = {
+  fileSystems."${export}/${name}" = {
     device = "/mnt/${name}";
     options = [ "bind" ];
   };
@@ -17,11 +18,10 @@ in
   services.nfs.server = {
     enable = true;
     exports = ''
-      /export *(fsid=0,crossmnt,sync)
+      ${export} *(fsid=0,crossmnt,sync)
     '';
   };
 
-  networking.firewall = {
-    allowedTCPPorts = [ 24 ];
-  };
+  # NFSv4 uses only this TCP port
+  networking.firewall.allowedTCPPorts = [ 2049 ];
 }

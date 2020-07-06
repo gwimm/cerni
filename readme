@@ -4,7 +4,7 @@ designed for rpi 4b
 sets up:
 - satellite mpd
 - wireguard
-- dropbear
+- dropbear    # well, i would make it set up dropbear... see: cfg/ssh.nix
 - aria2c
 - nfs
 
