@@ -45,6 +45,7 @@ in
         peers = [
           { # cpli
             publicKey = "{key public cpli}";
+            allowedIPs = [ "10.100.0.2" ];
           }
         ];
       };
