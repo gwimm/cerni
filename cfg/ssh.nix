@@ -7,6 +7,6 @@
     openssh = {
       enable = true;
       permitRootLogin = "yes";
-    }
+    };
   };
 }
