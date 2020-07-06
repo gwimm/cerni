@@ -45,7 +45,7 @@ in
         privateKeyFile = "/srv/wg/prv.b64";
 
         peers = [ { # cpli
-            allowedIPs = [ "10.100.0.2/24" ];
+            allowedIPs = [ "10.100.0.2/32" ];
             publicKey = "o1oXp9AfJW9anC8WNZU+01VhGrtbq4vazmwRPTil03E=";
         } ];
       };
