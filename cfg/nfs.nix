@@ -14,7 +14,7 @@ in
     options = [ "bind" ];
   };
 
-  services.nfs = {
+  services.nfs.server = {
     enable = true;
     exports = ''
       /export *(fsid=0,crossmnt,sync)
