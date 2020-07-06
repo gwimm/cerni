@@ -13,7 +13,7 @@ in
     ./hardware.nix
     ./networking.nix
     ./ssh.nix
-    ./wireguard.nix
+    # ./wireguard.nix
     # ./mpd.nix
     # ./server.nix
   ];
