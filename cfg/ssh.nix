@@ -1,7 +1,10 @@
 { config, pkgs, lib, ... }:
 
 {
-  programs.ssh.package = pkgs.dropbear;
+  # results in:
+  #  ssh-keygen: command not found
+  #  builder for 'sshd.conf-validated.drv' failed with exit code 127
+  # programs.ssh.package = pkgs.dropbear;
 
   services = {
     openssh = {
