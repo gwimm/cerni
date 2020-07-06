@@ -1,0 +1,13 @@
+personal nixos server configuration
+designed for rpi 4b
+
+sets up:
+- satellite mpd
+- wireguard
+- dropbear
+- aria2c
+- nfs
+
+meant to expose media on the network, act as a seedbox, and a vpn
+if you know any better alternatives to the current software choices, please
+don't hesitate to inform me
