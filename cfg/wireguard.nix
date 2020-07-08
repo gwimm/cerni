@@ -3,7 +3,14 @@
 # server wireguard setup
 
 let
-  listenPort = 51820;
+  # known vpn ports:
+  # 564:p9
+  # 655:Tinc VPN
+  # 981:Check Point VPN-1 (unofficial)
+  # 1194:OpenVPN
+  # 5000:VTun (unofficial)
+
+  listenPort = 5000;
   externalInterface = "wlan0";
 
 in
@@ -24,8 +31,6 @@ in
         listenPort = listenPort;
 
         postSetup = ''
-          ${pkgs.iptables}/bin/iptables -A FORWARD -i %i -j ACCEPT
-          ${pkgs.iptables}/bin/iptables -A FORWARD -o %i -j ACCEPT
           ${pkgs.iptables}/bin/iptables \
             -t nat                      \
             -A POSTROUTING              \
@@ -34,8 +39,6 @@ in
         '';
 
         postShutdown = ''
-          ${pkgs.iptables}/bin/iptables -D FORWARD -i %i -j ACCEPT
-          ${pkgs.iptables}/bin/iptables -D FORWARD -o %i -j ACCEPT
           ${pkgs.iptables}/bin/iptables \
             -t nat                      \
             -D POSTROUTING              \
@@ -46,7 +49,7 @@ in
         privateKeyFile = "/srv/wg/prv.b64";
 
         peers = [ { # cpli
-            allowedIPs = [ "10.10.0.1/0" ];
+            allowedIPs = [ "10.10.0.1/32" ];
             publicKey = "o1oXp9AfJW9anC8WNZU+01VhGrtbq4vazmwRPTil03E=";
         } ];
       };
