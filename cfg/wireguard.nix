@@ -14,10 +14,10 @@ let
 
   # helper function, planned to create easy command builders
   iptables = arg: ''
-    ${pkgs.iptables}/bin/iptables ${arg};
+    ${pkgs.iptables}/bin/iptables ${arg}
     ${
       lib.optionalString config.networking.enableIPv6
-        "${pkgs.iptables}/bin/ip6tables ${arg};"
+        "${pkgs.iptables}/bin/ip6tables ${arg}"
     }
   '';
 
