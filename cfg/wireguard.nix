@@ -12,6 +12,15 @@ let
   listenPort = 5000;
   externalInterface = "wlan0";
 
+  # helper function, planned to create easy command builders
+  iptables = arg: ''
+    ${pkgs.iptables}/bin/iptables ${arg};
+    ${
+      lib.optionalString config.networking.enableIPv6
+        "${pkgs.iptables}/bin/ip6tables ${arg};"
+    }
+  '';
+
 in
 
 {
@@ -23,14 +32,6 @@ in
       externalInterface = externalInterface;
       internalInterfaces = [ "wg0" ];
     };
-
-    iptables = arg: ''
-      ${pkgs.iptables}/bin/iptables ${arg};
-      ${
-        lib.optionalString config.networking.enableIPv6
-          "${pkgs.iptables}/bin/ip6tables ${arg};"
-      }
-    '';
 
     wireguard.interfaces = {
       "wg0" = {
