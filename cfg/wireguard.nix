@@ -20,7 +20,7 @@ in
 
     wireguard.interfaces = {
       "wg0" = {
-        ips = [ "10.100.0.0/24" ];
+        ips = [ "10.10.0.0/24" ];
         listenPort = listenPort;
 
         postSetup = ''
@@ -46,7 +46,7 @@ in
         privateKeyFile = "/srv/wg/prv.b64";
 
         peers = [ { # cpli
-            allowedIPs = [ "0.0.0.0/0" ];
+            allowedIPs = [ "10.10.0.1/0" ];
             publicKey = "o1oXp9AfJW9anC8WNZU+01VhGrtbq4vazmwRPTil03E=";
         } ];
       };
