@@ -4,12 +4,11 @@
 
 let
   # known vpn ports:
-  # 564:p9
-  # 655:Tinc VPN
-  # 981:Check Point VPN-1 (unofficial)
-  # 1194:OpenVPN
-  # 5000:VTun (unofficial)
-
+  #   564:p9
+  #   655:Tinc VPN
+  #   981:Check Point VPN-1 (unofficial)
+  #   1194:OpenVPN
+  #   5000:VTun (unofficial)
   listenPort = 5000;
   externalInterface = "wlan0";
 
@@ -25,25 +24,31 @@ in
       internalInterfaces = [ "wg0" ];
     };
 
+    iptables = arg: ''
+      ${pkgs.iptables}/bin/iptables ${arg};
+      ${
+        lib.optionalString config.networking.enableIPv6
+          "${pkgs.iptables}/bin/ip6tables ${arg};"
+      }
+    '';
+
     wireguard.interfaces = {
       "wg0" = {
         ips = [ "10.10.0.0/24" ];
         listenPort = listenPort;
 
-        postSetup = ''
-          ${pkgs.iptables}/bin/iptables \
-            -t nat                      \
-            -A POSTROUTING              \
-            -o ${externalInterface}     \
-            -j MASQUERADE               \
+        postSetup = iptables ''     \
+            -t nat                  \
+            -A POSTROUTING          \
+            -o ${externalInterface} \
+            -j MASQUERADE
         '';
 
-        postShutdown = ''
-          ${pkgs.iptables}/bin/iptables \
-            -t nat                      \
-            -D POSTROUTING              \
-            -o ${externalInterface}     \
-            -j MASQUERADE               \
+        postShutdown = iptables ''  \
+            -t nat                  \
+            -D POSTROUTING          \
+            -o ${externalInterface} \
+            -j MASQUERADE
         '';
 
         privateKeyFile = "/srv/wg/prv.b64";
