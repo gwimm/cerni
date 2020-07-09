@@ -21,6 +21,6 @@ in
     # doesn't work without root password, which can't be set...
     permitRootLogin = "yes";
 
-    authorizedKeyFiles = builtins.attrNames (builtins.readDir "${prefix}/keys")
+    authorizedKeyFiles = builtins.attrNames (builtins.readDir "${prefix}/keys");
   };
 }
