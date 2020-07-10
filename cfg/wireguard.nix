@@ -3,6 +3,8 @@
 # server wireguard setup
 
 let
+  prefix = "/srv/wg";
+
   # known vpn ports:
   #   564:p9
   #   655:Tinc VPN
@@ -52,7 +54,8 @@ in
             -j MASQUERADE
         '';
 
-        privateKeyFile = "/srv/wg/prv.b64";
+        privateKeyFile = "${prefix}/prv.b64";
+        # presharedKeyFile = "${prefix}/psk.b64";
 
         peers = [ { # cpli
             allowedIPs = [ "10.10.0.1/32" ];

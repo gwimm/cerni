@@ -38,4 +38,21 @@ in
     fsType = "ext4";
     options = [ "nofail" ];
   };
+
+  import pkgs.path { overlays = [(self: super: {
+    urbit = super.urbit.override {
+      version = "0.10.7";
+
+      src = fetchFromGitHub {
+        owner = "urbit";
+        repo = "urbit";
+        rev =
+          "${pname}-v${version}";
+          # "271abcd3e76cc0a3d7d37b4efdfe3d73c62a1e0b";
+        sha256 = "1w61w48173pd9gfx4ghf9c4bbjy3hkhdzh778igsv974r29bagrr";
+        fetchSubmodules = true;
+      };
+
+    };
+  })]};
 }
