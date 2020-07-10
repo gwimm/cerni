@@ -39,7 +39,7 @@ in
     options = [ "nofail" ];
   };
 
-  nixpkgs.overlays = [(self: super: {
+  nixpkgs.overlays = [(self: super: with import <nixpkgs> {}; {
     urbit = super.urbit.override {
       version = "0.10.7";
 
