@@ -1,5 +1,8 @@
 { config, pkgs, lib, ... }:
 
+# TODO
+# isolate passwords into secrets
+
 {
   networking = {
     hostName = "cerni";

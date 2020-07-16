@@ -23,11 +23,11 @@ let
     }
   '';
 
-in
-
-{
+in {
   networking = {
-    firewall.allowedUDPPorts = [ listenPort ];
+    firewall = {
+      allowedUDPPorts = [ listenPort ];
+    };
 
     nat = {
       enable = true;

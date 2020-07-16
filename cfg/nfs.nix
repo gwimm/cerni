@@ -1,15 +1,13 @@
 { config, pkgs, lib, ... }:
 
-# nfs setup
-# potentially possible to isolate into its own function
+# server-side NFS daemon setup
+# potentially possible to isolate into its own function for any mount
 
 let
   name = "gravi";
   export = "/srv/nfs";
 
-in
-
-{
+in {
   fileSystems."${export}/${name}" = {
     device = "/mnt/${name}";
     options = [ "bind" ];

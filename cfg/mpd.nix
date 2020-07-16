@@ -6,9 +6,7 @@
 let
   library = "/mnt/elodi";
 
-in
-
-{
+in {
   services = {
     mpd = {
       enable = true;

@@ -10,8 +10,8 @@
 
     loader = {
       # grub does not support arm at all
-      # override nixos' default value of 'true'
-      grub.enable = false;
+      # override NixOs' default value of 'true'
+      grub = { enable = false; };
 
       # generationsDir.enable = false;
 
